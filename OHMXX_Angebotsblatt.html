@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHMXX Angebotsblatt</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 13px; background: #f0f0f0; color: #222; }
+
+  .page { max-width: 820px; margin: 20px auto; background: #fff; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+
+  /* Header */
+  .header { background: #E8600A; color: #fff; padding: 12px 16px; margin: -24px -28px 18px; display: flex; justify-content: space-between; align-items: center; }
+  .header-left { font-size: 17px; font-weight: bold; }
+  .header-left span { display: block; font-size: 10px; font-weight: normal; margin-top: 2px; opacity: 0.85; }
+  .header-right { font-size: 14px; font-weight: bold; text-align: right; }
+  .header-right span { display: block; font-size: 10px; font-weight: normal; opacity: 0.85; }
+
+  /* Meta row */
+  .meta { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; background: #f8f8f8; border: 1px solid #ddd; padding: 10px 12px; margin-bottom: 16px; border-radius: 4px; }
+  .meta-field label { display: block; font-size: 10px; font-weight: bold; color: #666; margin-bottom: 3px; }
+  .meta-field input { width: 100%; border: none; border-bottom: 1.5px solid #aaa; padding: 3px 2px; font-size: 13px; background: transparent; outline: none; }
+  .meta-field input:focus { border-bottom-color: #E8600A; }
+
+  /* Section */
+  .section { margin-bottom: 18px; }
+  .section-titles { display: grid; grid-template-columns: 1fr 220px; gap: 0; margin-bottom: 4px; }
+  .section-title { font-size: 13px; font-weight: bold; }
+  .section-fl-title { font-size: 13px; font-weight: bold; }
+
+  .section-body { display: grid; grid-template-columns: 1fr 220px; gap: 0; border-top: 1.5px solid #222; }
+
+  /* Left: massen */
+  .massen-col { border-right: 1px solid #ccc; }
+  .massen-row { border-bottom: 1px solid #ddd; }
+  .massen-row input {
+    width: 100%; border: none; padding: 5px 6px; font-size: 12.5px;
+    background: transparent; outline: none; color: #222;
+  }
+  .massen-row:nth-child(even) { background: #fafafa; }
+  .massen-row input:focus { background: #fff8f4; }
+
+  /* Right col */
+  .right-col { padding-left: 10px; }
+
+  /* FL checkboxes */
+  .fl-list { margin-bottom: 8px; }
+  .fl-item { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee; }
+  .fl-item label { font-size: 12.5px; cursor: pointer; }
+  .fl-item input[type=checkbox] { width: 16px; height: 16px; accent-color: #E8600A; cursor: pointer; }
+
+  /* Manntage */
+  .manntage { background: #f8f8f8; border: 1px solid #ddd; border-radius: 4px; padding: 8px; margin-top: 6px; }
+  .manntage-title { font-size: 11px; font-weight: bold; margin-bottom: 6px; color: #444; }
+  .manntage-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .manntage-field label { display: block; font-size: 10px; color: #666; margin-bottom: 2px; }
+  .manntage-field input {
+    width: 100%; border: 1px solid #ccc; border-radius: 3px; padding: 5px 6px;
+    font-size: 13px; font-weight: bold; text-align: center; outline: none;
+  }
+  .manntage-field input:focus { border-color: #E8600A; }
+  .manntage-field.calc input { background: #FFF4ED; border-color: #E8600A; color: #E8600A; }
+  .manntage-field.calc input:read-only { cursor: default; }
+
+  /* Totals */
+  .totals { background: #2C2C2C; color: #fff; padding: 14px 16px; border-radius: 6px; margin-top: 20px; }
+  .totals-title { font-size: 13px; font-weight: bold; color: #E8600A; margin-bottom: 12px; }
+  .totals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .totals-field label { display: block; font-size: 10px; color: #aaa; margin-bottom: 4px; }
+  .totals-field input {
+    width: 100%; border: 1.5px solid #E8600A; border-radius: 4px;
+    padding: 7px 10px; font-size: 16px; font-weight: bold;
+    background: #FFF4ED; color: #E8600A; text-align: center; outline: none;
+  }
+
+  /* Bemerkungen */
+  .notes { margin-top: 16px; }
+  .notes label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 5px; }
+  .notes textarea {
+    width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;
+    font-size: 12.5px; font-family: Arial, sans-serif; resize: vertical;
+    min-height: 70px; outline: none;
+  }
+  .notes textarea:focus { border-color: #E8600A; }
+
+  /* Print button */
+  .actions { margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end; }
+  .btn { padding: 10px 22px; border: none; border-radius: 5px; font-size: 13px; cursor: pointer; font-weight: bold; }
+  .btn-primary { background: #E8600A; color: #fff; }
+  .btn-secondary { background: #eee; color: #444; border: 1px solid #ccc; }
+  .btn:hover { opacity: 0.88; }
+
+  /* Print styles */
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; padding: 14px 18px; }
+    .actions { display: none; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .totals { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .manntage-field.calc input { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">OHMXX GmbH
+      <span>Bertha-Benz-Str. 6 · 64625 Bensheim · www.ohmxx.de</span>
+    </div>
+    <div class="header-right">Angebotsblatt Instandsetzung/Installation
+      <span>Internes Prüfer-Dokument</span>
+    </div>
+  </div>
+
+  <!-- Meta -->
+  <div class="meta">
+    <div class="meta-field"><label>Prüfer</label><input type="text" id="prufer" placeholder="Name"></div>
+    <div class="meta-field"><label>Datum</label><input type="date" id="datum"></div>
+    <div class="meta-field"><label>KD-Nr.</label><input type="text" id="kdnr" placeholder="z.B. 10557"></div>
+    <div class="meta-field"><label>Projekt-Nr.</label><input type="text" id="projektnr" placeholder="z.B. LIG-17819"></div>
+  </div>
+
+  <!-- Sections -->
+  <div id="sections"></div>
+
+  <!-- Totals -->
+  <div class="totals">
+    <div class="totals-title">Gesamtauswertung (intern) — Tagessatz: 1.700,00 €</div>
+    <div class="totals-grid">
+      <div class="totals-field">
+        <label>Manntage gesamt (alle Sektionen)</label>
+        <input type="text" id="gesamt_mt" readonly placeholder="0">
+      </div>
+      <div class="totals-field">
+        <label>Kalkulierter Umsatz netto</label>
+        <input type="text" id="gesamt_euro" readonly placeholder="0,00 €">
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes">
+    <label>Bemerkungen / Hinweise für Vertrieb</label>
+    <textarea id="bemerkungen" placeholder="z.B. Gebäude 371 hängt an Gebäude 370, BSA zusammenhängend..."></textarea>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn btn-secondary" onclick="resetForm()">Zurücksetzen</button>
+    <button class="btn btn-primary" onclick="window.print()">Drucken / Als PDF speichern</button>
+  </div>
+
+</div>
+
+<script>
+const SECTIONS = [
+  { id: "bestand",  title: "Massen bestand",           fl: ["Arbeitsbühne","Fassadenkletterer","Tiefbaufirma","Dachdecker","Container"] },
+  { id: "windlast", title: "Massen Windlast",           fl: ["Arbeitsbühne","Fassadenkletterer","Tiefbaufirma","Dachdecker","Container"] },
+  { id: "sonst",    title: "Sonstiges",                 fl: ["Arbeitsbühne","Fassadenkletterer","Tiefbaufirma","Sonstige","Container"] },
+  { id: "norm",     title: "Massen neue Norm",          fl: ["Arbeitsbühne","Fassadenkletterer","Tiefbaufirma","Sonstige","Container"] },
+  { id: "potausgl", title: "Massen Potentialausgleich", fl: ["Tiefbaufirma","Aufzug Firma","Sonstige"] },
+  { id: "uess",     title: "Massen ÜSS",               fl: ["Abschaltung nötig","Sonstige"] },
+];
+
+const N_MASSEN = 8;
+
+function buildSections() {
+  const container = document.getElementById("sections");
+  SECTIONS.forEach(sec => {
+    // Massen rows
+    let massenHTML = "";
+    for (let i = 0; i < N_MASSEN; i++) {
+      massenHTML += `<div class="massen-row"><input type="text" id="${sec.id}_m${i}" placeholder="–"></div>`;
+    }
+
+    // FL checkboxes
+    let flHTML = "";
+    sec.fl.forEach((item, i) => {
+      flHTML += `
+        <div class="fl-item">
+          <label for="${sec.id}_fl_${i}">${item}</label>
+          <input type="checkbox" id="${sec.id}_fl_${i}">
+        </div>`;
+    });
+
+    const html = `
+      <div class="section">
+        <div class="section-titles">
+          <div class="section-title">${sec.title}</div>
+          <div class="section-fl-title">Fremdleistung</div>
+        </div>
+        <div class="section-body">
+          <div class="massen-col">${massenHTML}</div>
+          <div class="right-col">
+            <div class="fl-list">${flHTML}</div>
+            <div class="manntage">
+              <div class="manntage-title">Manntage</div>
+              <div class="manntage-grid">
+                <div class="manntage-field">
+                  <label>Mann</label>
+                  <input type="number" id="${sec.id}_mann" min="0" step="1" placeholder="0"
+                    oninput="recalc('${sec.id}')">
+                </div>
+                <div class="manntage-field">
+                  <label>Tag/e</label>
+                  <input type="number" id="${sec.id}_tage" min="0" step="0.5" placeholder="0"
+                    oninput="recalc('${sec.id}')">
+                </div>
+                <div class="manntage-field calc">
+                  <label>Manntage</label>
+                  <input type="text" id="${sec.id}_summe" readonly placeholder="0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    container.insertAdjacentHTML("beforeend", html);
+  });
+}
+
+function recalc(secId) {
+  const mann  = parseFloat(document.getElementById(secId + "_mann")?.value) || 0;
+  const tage  = parseFloat(document.getElementById(secId + "_tage")?.value) || 0;
+  const summe = mann * tage;
+
+  const summeEl = document.getElementById(secId + "_summe");
+  summeEl.value = summe > 0 ? summe.toFixed(summe % 1 === 0 ? 0 : 1) : "";
+
+  recalcTotal();
+}
+
+function recalcTotal() {
+  let total = 0;
+  SECTIONS.forEach(sec => {
+    const v = parseFloat(document.getElementById(sec.id + "_summe")?.value) || 0;
+    total += v;
+  });
+
+  document.getElementById("gesamt_mt").value = total > 0
+    ? total.toFixed(total % 1 === 0 ? 0 : 1)
+    : "";
+  document.getElementById("gesamt_euro").value = total > 0
+    ? (total * 1700).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €"
+    : "";
+}
+
+function resetForm() {
+  if (!confirm("Formular wirklich zurücksetzen?")) return;
+  document.querySelectorAll("input[type=text], input[type=number], input[type=date], textarea")
+    .forEach(el => { el.value = ""; });
+  document.querySelectorAll("input[type=checkbox]")
+    .forEach(el => { el.checked = false; });
+  // Set today's date
+  document.getElementById("datum").valueAsDate = new Date();
+}
+
+// Init
+buildSections();
+document.getElementById("datum").valueAsDate = new Date();
+</script>
+</body>
+</html>
